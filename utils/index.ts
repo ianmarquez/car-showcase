@@ -1,8 +1,9 @@
-import { Car } from "@/types";
+import { Car, FilterProps } from "@/types";
 
-export async function fetchCars() {
+export async function fetchCars(filters: FilterProps) {
   const apiKey = process.env.RAPID_API_KEY;
   const apiEndpoint = process.env.RAPID_API_ENDPOINT;
+  const { manufacturer, year, limit, fuel, model } = filters;
 
   if (!apiKey || !apiEndpoint) {
     return;
@@ -13,8 +14,39 @@ export async function fetchCars() {
     "X-RapidAPI-Host": apiEndpoint,
   };
 
-  const url = "https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?model=carrera";
-  const response = await fetch(url, { headers });
+  const url = new URL("https://cars-by-api-ninjas.p.rapidapi.com/v1/cars");
+
+  if (manufacturer) {
+    url.searchParams.append("manufacturer", manufacturer);
+  } else {
+    url.searchParams.delete("manufacturer");
+  }
+
+  if (model) {
+    url.searchParams.append("model", model);
+  } else {
+    url.searchParams.delete("model");
+  }
+
+  if (year) {
+    url.searchParams.append("year", `${year}`);
+  } else {
+    url.searchParams.delete("year");
+  }
+
+  if (limit) {
+    url.searchParams.append("limit", `${limit}`);
+  } else {
+    url.searchParams.delete("limit");
+  }
+
+  if (fuel) {
+    url.searchParams.append("fuel", fuel);
+  } else {
+    url.searchParams.delete("fuel");
+  }
+
+  const response = await fetch(url.toString(), { headers });
   const result = await response.json();
   return result;
 }

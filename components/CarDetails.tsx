@@ -106,7 +106,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                           <h4 className="text-grey capitalize">
                             {key.split("_").join(" ")}
                           </h4>
-                          <p>{value}</p>
+                          <p className="capitalize">{value}</p>
                         </div>
                       ))}
                     </div>

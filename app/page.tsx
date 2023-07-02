@@ -2,8 +2,18 @@ import { CarCard, CustomFilter, Hero, Searchbar } from "@/components";
 import { Car } from "@/types";
 import { fetchCars } from "@/utils";
 
-export default async function Home() {
-  const allCars = await fetchCars();
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: any };
+}) {
+  const allCars = await fetchCars({
+    manufacturer: searchParams.manufacturer || "",
+    year: searchParams.year || "",
+    fuel: searchParams.fuel || "",
+    limit: searchParams.limit || "",
+    model: searchParams.model || "",
+  });
 
   const isDataEmpty =
     !Array.isArray(allCars) || allCars.length === 0 || !allCars;
