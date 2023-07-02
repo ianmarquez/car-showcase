@@ -5,3 +5,8 @@ export interface CustomButtonProps {
   containerStyles: string;
   handleClick: () => void;
 }
+
+export interface SearchManufacturerProps {
+  manufacturer: string;
+  setManufacturer: (manufacturer: string) => void;
+}
