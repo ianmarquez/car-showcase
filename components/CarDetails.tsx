@@ -1,5 +1,6 @@
 "use client";
 import { Car } from "@/types";
+import { generateCarImageUrl } from "@/utils";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
 import React, { Fragment } from "react";
@@ -37,7 +38,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="flex flex-col gap-5 text-left shadow-xsl relative w-full max-w-lg max-h-[90vh] overflow-y-auto transform rounded-2xl bg-white">
+                <Dialog.Panel className="flex flex-col gap-5 text-left shadow-xl p-6 relative w-full max-w-lg max-h-[90vh] overflow-y-auto transform rounded-2xl bg-white">
                   <button
                     className="absolute top-2 right-2 z-10 w-fit p-2 bg-primary-blue-100 rounded-full"
                     type="button"
@@ -55,7 +56,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                   <div className="flex-1 flex flex-col gap-3">
                     <div className="relative w-full h-40 bg-pattern bg-cover bg-center rounded-lg">
                       <Image
-                        src="/hero.png"
+                        src={generateCarImageUrl(car)}
                         alt="car model"
                         fill
                         priority
@@ -66,7 +67,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                     <div className="flex gap-3">
                       <div className="flex-1 relative w-full h-24 bg-primary-blue-100 rounded-lg">
                         <Image
-                          src="/hero.png"
+                          src={generateCarImageUrl(car, "24")}
                           alt="car model"
                           fill
                           priority
@@ -75,7 +76,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                       </div>
                       <div className="flex-1 relative w-full h-24 bg-primary-blue-100 rounded-lg">
                         <Image
-                          src="/hero.png"
+                          src={generateCarImageUrl(car, "33")}
                           alt="car model"
                           fill
                           priority
@@ -84,7 +85,7 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                       </div>
                       <div className="flex-1 relative w-full h-24 bg-primary-blue-100 rounded-lg">
                         <Image
-                          src="/hero.png"
+                          src={generateCarImageUrl(car, "13")}
                           alt="car model"
                           fill
                           priority
@@ -102,7 +103,9 @@ const CarDetails: React.FC<CarDetailsProps> = ({ car, isOpen, closeModal }) => {
                     <div className="mt-3 flex flex-wrap gap-4">
                       {Object.entries(car).map(([key, value]) => (
                         <div className="flex justify-between gap-5 w-full text-right">
-                          <h4>{key}</h4>
+                          <h4 className="text-grey capitalize">
+                            {key.split("_").join(" ")}
+                          </h4>
                           <p>{value}</p>
                         </div>
                       ))}
