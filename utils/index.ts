@@ -14,39 +14,12 @@ export async function fetchCars(filters: FilterProps) {
     "X-RapidAPI-Host": apiEndpoint,
   };
 
-  const url = new URL("https://cars-by-api-ninjas.p.rapidapi.com/v1/cars");
-
-  if (manufacturer) {
-    url.searchParams.append("manufacturer", manufacturer);
-  } else {
-    url.searchParams.delete("manufacturer");
-  }
-
-  if (model) {
-    url.searchParams.append("model", model);
-  } else {
-    url.searchParams.delete("model");
-  }
-
-  if (year) {
-    url.searchParams.append("year", `${year}`);
-  } else {
-    url.searchParams.delete("year");
-  }
-
-  if (limit) {
-    url.searchParams.append("limit", `${limit}`);
-  } else {
-    url.searchParams.delete("limit");
-  }
-
-  if (fuel) {
-    url.searchParams.append("fuel", fuel);
-  } else {
-    url.searchParams.delete("fuel");
-  }
-
-  const response = await fetch(url.toString(), { headers });
+  const response = await fetch(
+    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
+    {
+      headers: headers,
+    }
+  );
   const result = await response.json();
   return result;
 }
@@ -75,4 +48,12 @@ export const calculateRent = (city_mpg: number, year: number): string => {
   const rentalRatePerDay = basePricePerDay + mileageRate + ageRate;
 
   return rentalRatePerDay.toFixed(0);
+};
+
+export const updateSearchParams = (type: string, value: string) => {
+  const searchParams = new URLSearchParams(window.location.search);
+  searchParams.set(type, value);
+
+  const newPathName = `${window.location.pathname}?${searchParams.toString()}`;
+  return newPathName.toString();
 };
